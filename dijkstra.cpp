@@ -372,7 +372,6 @@ void heapSort(Graph<string> myGraph, row currentV, Queue<string> &myQ, vector<ro
   
   vector<string> temp;
   int size;
-  //bool newEntry = false;
   
 	//Places the edges of the current vertex in the edge queue
 	myGraph.GetToVertices(currentV.vertex, edgeQ);
@@ -383,11 +382,6 @@ void heapSort(Graph<string> myGraph, row currentV, Queue<string> &myQ, vector<ro
   
 		if(!table[locate(table, myQ.getFront())].mark  && !isDuplicate(temp, myQ.getFront()))
 		{
-   
-			if(table[locate(table, myQ.getFront())].distance == INT_MAX)
-			{
-				//newEntry = true;
-			}
     
 			temp.push_back(myQ.dequeue());
 		}
@@ -400,8 +394,6 @@ void heapSort(Graph<string> myGraph, row currentV, Queue<string> &myQ, vector<ro
 	size = temp.size();
   
 
-	//if(newEntry)
-	//{
   
 	//Heapify the vector, starting at the middle vertex and working backwards
 	for(int i = size/2 - 1; i >= 0; i--)
@@ -417,7 +409,7 @@ void heapSort(Graph<string> myGraph, row currentV, Queue<string> &myQ, vector<ro
 		heapify(myGraph, currentV, temp, table, i, 0, edgeQ);
 	}
   
-	//}
+
  
 	//Place the vertices back in the queue
 	for(int i = 0; i < temp.size(); i++)
