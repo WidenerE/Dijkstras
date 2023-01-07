@@ -1,0 +1,96 @@
+The goal of this program is to implement Dijkstra's algorithm to find the shortest path in a graph from a starting vertex to all other reachable verticies, making it
+an exhaustive implementation of Dijkstra's. The program will use a variety of data structures to achieve this goal including graphs, heaps, queues, hash tables, and vectors.
+
+The program will accept a single text file from the command line, from which the graph will be built. The file will contain sets of vertices and the weights between them,
+comprising the edges of the graph. The graph will then be processed to produce and output a summary table of the shortest distance from the given starting vertex
+to all other reachable vertices.
+
+
+
+The graph data structure is comprised of points called vertices and the lines connecting them, called edges. Each edge has a number associated ith it, called the weight,
+which represents the distance between the two vertices. The graphs in this program will be directed graphs, meaning each edge only moves one way. the graph class
+contains a number of methods used to navigate the data structure. One such method is the GetToVertices method that accepts a vertex and a queue and fills the queue
+with all verticies that are adjacent to the given vertex. The class also contains the WeightIs method for determining the weight between vertices. It also contains
+methods for adding vertices and edges, used to build the graph. Additionally, each vertex can be marked and cleared to keep track of which vertices have been visited,
+though this is primarily handled in this program by the vector of row structs reprsenting each vertex. Vertices in the graph are contained in an array, and edges in 
+a matrix. It is also possible to check to see if the graph is empty or full.
+
+In addition to graphs, queues are also used. Queues are FIFO data structures that are used in this program to keep track of edges from a given vertex as well as
+all of the currently unmarked vertices. 
+
+The queue containing the unmarked vertices is turned into a min heap, which is also a priority queue. The min heap funnels the lowest value in the data structure
+to the front of the queue at all times. The heap is sorted so that each recursive pass through Dijkstra's does not need to search for the lowest, because the lowest
+will always be at the front. A getSize method to get the size of the queue was added to the queue class, to help perform various functions.
+
+A hash table class has been written and used in this program. The hash table is used in the fillGraph method to keep track of what verttices have and have not been
+added to the graph and vector of rows.
+
+A struct has been created to represent each row in the summary table. Each row contains the vertex, the previous vertex, the distance between the two, and a boolean
+that is used to mark each vertex.
+
+
+
+Dijkstra's algorithm traverses a graph to find the shortest path from the given vertex to the other reachable vertices. In this program, Dijkstra's has been 
+implemented recursively and is broken down into smaller pieces, which are also recursive in nature. The algorithm accepts a graph, queue, vector of rows, starting
+vertex, boolean, and an additional queue. 
+
+First, the algorithm checks via the boolean if this is th first recursive pass. If it is, the distance of the starting vertex is set to 0.
+Then the current row is printed to the screen.
+
+Next, the queue containing all the unmarked vertices is initialized with the adjacent vertices from the starting vertex. The queue is then
+heapified into a max heap and sorted into a min heap by heap sort. The additional queue is used in sorting to check and see if the vertex in question
+shares an edge with the current vertex.
+
+After that, the algorithm checks to see if there are any unmarked vertices left in the queue. If there are, the algorithm continues. If not, all
+vertices have been processed and the algorithm is finished.
+
+From there, the distances from the current vertex to the adjacent unmarked vertices are aggregated and added to the table.
+
+Then, the current shortest distance is determined and the vertex corresponding to that distance becomes the new current vertex and Dijkstra's is recursively called.
+
+
+
+The flow of the client algorithm is fairly straightforward. The proper variables and data structures are declared, and then the graph is built and the vector of rows
+is initialized by the fillGraph method.
+
+The fillGraph method reads in, line by line, the information in the text file to build the graph and the vector of rows simultaneously.
+
+The vertices in the vector are then sorted by the built in vector method sort, that utilizes quick sort, in alphabetical order.
+
+Then, the menu indicating what vertices are contained in the graph is printed to the screen and the user is prompted to enter a starting vertex for Dijkstra's.
+If the user enters a vertex that is not contained in the graph, they are continually prompted until they enter a valid one.
+
+Once a valid starting vertex is given by the user, all the components for Dijkstras's to work are in place and Dijkstra's algorithm is called.
+The algorithm outputs a summary table of the distances from the starting vertex to all other reachable vertices.
+
+An additional input file has been included with this program. Its contents are as follows:
+
+1;5;8
+1;9;3
+1;2;4
+2;3;6
+2;1;1
+3;5;7
+3;4;4
+4;6;2
+5;8;7
+5;7;8
+5;2;4
+6;3;2
+6;9;5
+7;4;2
+8;6;5
+9;1;1
+
+And the output for this file if the starting vertex is 1:
+
+                             1                             0                           N/A
+                             9                             3                             1
+                             2                             4                             1
+                             5                             8                             1
+                             3                            10                             2
+                             4                            14                             3
+                             8                            15                             5
+                             7                            16                             5
+                             6                            16                             4
+
